@@ -21,6 +21,8 @@ namespace ScreenSaver
             chkUseTimeOfDay.Checked = settings.UseTimeOfDay;
             chkMultiscreenDisabled.Checked = settings.MultiscreenDisabled;
             chkCacheVideos.Checked = settings.CacheVideos;
+            chkSharedLocation.Checked = settings.SharedCache;
+            tbSharedLocation.Text = settings.CacheDir;
         }
 
         /// <summary>
@@ -33,6 +35,8 @@ namespace ScreenSaver
             settings.UseTimeOfDay = chkUseTimeOfDay.Checked;
             settings.MultiscreenDisabled = chkMultiscreenDisabled.Checked;
             settings.CacheVideos = chkCacheVideos.Checked;
+            settings.SharedCache = chkSharedLocation.Checked;
+            settings.CacheDir = tbSharedLocation.Text;
 
             settings.SaveSettings();
             
@@ -48,6 +52,12 @@ namespace ScreenSaver
         private void cancelButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void chkCacheVideos_CheckedChanged(object sender, EventArgs e)
+        {
+            chkSharedLocation.Enabled = chkCacheVideos.Checked;
+            tbSharedLocation.Enabled = chkCacheVideos.Checked;
         }
     }
 }

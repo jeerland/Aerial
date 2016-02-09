@@ -21,11 +21,13 @@ namespace ScreenSaver
         List<Asset> Movies;
         DateTime lastInteraction = DateTime.Now;
 
-        string cacheFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Aerial");
+        private RegSettings settings = new RegSettings();
+        private string cacheFolder;
         string tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Temp");
 
         public ScreenSaverForm()
         {
+            cacheFolder = settings.CacheDir;
             InitializeComponent();
 
             TopMost = true;
@@ -79,7 +81,7 @@ namespace ScreenSaver
             nextVideoTimer.Interval = 1000;
             nextVideoTimer.Enabled = true;
 
-            var cacheVideos = new RegSettings().CacheVideos;
+            var cacheVideos = settings.CacheVideos;
             if (cacheVideos) {
                 DirectoryInfo directory = Directory.CreateDirectory(cacheFolder);
             }
@@ -150,7 +152,7 @@ namespace ScreenSaver
         private void SetNextVideo()
         {
             Trace.WriteLine("SetNextVideo()");
-            var cacheVideos = new RegSettings().CacheVideos;
+            var cacheVideos = settings.CacheVideos;
             if (ShowVideo)
             {
                 string tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Temp");
