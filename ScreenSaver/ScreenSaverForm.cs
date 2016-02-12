@@ -145,7 +145,8 @@ namespace ScreenSaver
         private void OnDownloadFileComplete(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Cancelled == false && e.Error == null) {
-	            Directory.Move(Path.Combine(tempFolder, e.UserState.ToString()), Path.Combine(cacheFolder, e.UserState.ToString()));
+	            File.Copy(Path.Combine(tempFolder, e.UserState.ToString()), Path.Combine(cacheFolder, e.UserState.ToString()));
+                File.Delete(Path.Combine(tempFolder, e.UserState.ToString()));
             }
         }
 
@@ -156,7 +157,7 @@ namespace ScreenSaver
             if (ShowVideo)
             {
                 string tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Temp");
-                string filename = Path.GetFileName(Movies[currentVideoIndex].url);
+                string filename = Path.GetFileName(Movies[currentVideoIndex].url ?? Movies[currentVideoIndex].filename);
 
                 if (File.Exists(Path.Combine(cacheFolder, filename)))
                 {
@@ -198,6 +199,7 @@ namespace ScreenSaver
 
         private void LayoutPlayer()
         {
+            this.player.settings.volume = 0;
             this.player.settings.autoStart = true;
             this.player.settings.enableErrorDialogs = true;
             this.player.uiMode = "none";
